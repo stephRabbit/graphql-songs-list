@@ -1,6 +1,35 @@
 import React, { Component } from 'react'
+import { graphql } from 'react-apollo'
+// -------------------
+import likeLyricMutation from '../mutations/likeLyric'
 
 export class LyricList extends Component {
+  likeLyric = (id, likes) => () => {
+    this.props.mutate({
+      variables: { id }
+    })
+  }
+
+  renderLyrics = () => {
+    return this.props.lyrics.map(({ id, content, likes }) => (
+      <li
+        className="collection-item"
+        key={id}
+      >
+        {content}
+        <div className="vote-box">
+          <span className="vote-box-count">{likes}</span>
+          <i
+            className="material-icons"
+            onClick={this.likeLyric(id)}
+          >
+            thumb_up
+          </i>
+        </div>
+      </li>
+    ))
+  }
+
   render() {
     const { lyrics } = this.props
     if (lyrics.length === 0) {
@@ -9,17 +38,10 @@ export class LyricList extends Component {
 
     return (
       <ul className="collection">
-        {lyrics.map(lyric => (
-          <li
-            className="collection-item"
-            key={lyric.id}
-          >
-            {lyric.content}
-          </li>
-        ))}
+        {this.renderLyrics()}
       </ul>
     )
   }
 }
 
-export default LyricList
+export default graphql(likeLyricMutation)(LyricList)
