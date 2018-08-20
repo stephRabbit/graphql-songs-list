@@ -6,16 +6,18 @@ import fetchSongQuery from '../queries/fetchSong'
 // -------------------
 import LyricCreate from './LyricCreate'
 
-export const SongDetail = props => {
-  const { song } = props.data
-  if (!song) return (<div>Loading ...</div>)
-  return (
-    <div>
-      <Link to="/">Back</Link>
-      <h3>{song.title}</h3>
-      <LyricCreate songId={props.match.params.id} />
-    </div>
-  )
+export class SongDetail extends Component {
+  render () {
+    const { song } = this.props.data
+    if (!song) return (<div>Loading ...</div>)
+    return (
+      <div>
+        <Link to="/">Back</Link>
+        <h3>{song.title}</h3>
+        <LyricCreate songId={props.match.params.id} />
+      </div>
+    )
+  }
 }
 
 export default graphql(fetchSongQuery, {
