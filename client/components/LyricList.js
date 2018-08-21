@@ -6,7 +6,15 @@ import likeLyricMutation from '../mutations/likeLyric'
 export class LyricList extends Component {
   likeLyric = (id, likes) => () => {
     this.props.mutate({
-      variables: { id }
+      variables: { id },
+      optimisticResponse: {
+        __typename: 'Mutation',
+        likeLyric: {
+          __typename: 'LyricType',
+          id,
+          likes: likes + 1
+        }
+      }
     })
   }
 
@@ -21,7 +29,7 @@ export class LyricList extends Component {
           <span className="vote-box-count">{likes}</span>
           <i
             className="material-icons"
-            onClick={this.likeLyric(id)}
+            onClick={this.likeLyric(id, likes)}
           >
             thumb_up
           </i>
