@@ -6,7 +6,8 @@ const addLyricsToSong = gql`
       id
       lyrics {
         id
-        content
+        content,
+        likes
       }
     }
   }
